@@ -1,11 +1,15 @@
 import express from "express";
-import { createUser, deleteUser, userList } from "../services/user";
+import { createUser, deleteUser, getAllUsers } from "../services/userServices";
+import * as ApiController from '../../controllers/authApiController'
 
 const router = express.Router();
 
 router.get("/ping", (req, res) => {
   res.json({ pong: true });
 });
+
+router.post('/register', ApiController.register);
+router.post('/login', ApiController.login);
 
 router.post("/create", async (req, res) => {
   const { nome, cpf } = req.body;
@@ -19,7 +23,7 @@ router.post("/create", async (req, res) => {
 });
 
 router.get("/dados", async (req, res) => {
-  const usuarios = await userList();
+  const usuarios = await getAllUsers();
   res.status(200).json(usuarios);
 });
 

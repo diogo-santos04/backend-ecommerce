@@ -18,7 +18,7 @@ export const createUser = async (data: Prisma.UserCreateInput) => {
   }
 };
 
-export const userList = async () => {
+export const getAllUsers = async () => {
   try {
     return await prisma.user.findMany();
   } catch (error) {
