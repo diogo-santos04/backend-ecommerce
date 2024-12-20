@@ -14,6 +14,8 @@ server.use(express.json());
 server.use(mainRouter);
 
 const port = process.env.PORT || 4000;
-server.listen(port, () => {
-    console.log(`http://localhost:${port}`);
-})
+
+server.listen(3000, "10.42.20.89", () => {
+    console.log("http://10.42.20.89:3000");
+  });
+  
