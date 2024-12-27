@@ -1,6 +1,7 @@
 import { Router } from "express";
 import usuarioRouter from "./user";
-import { prisma } from "../libs/prisma"
+import produtoRouter from "./produto"; 
+import categoriaRouter from "./categoria";
 
 export const mainRouter = Router();
 
@@ -9,3 +10,5 @@ mainRouter.get("/", (req, res) => {
 });
 
 mainRouter.use("/usuario", usuarioRouter);
+mainRouter.use("/produtos", produtoRouter); 
+mainRouter.use("/categoria", categoriaRouter);

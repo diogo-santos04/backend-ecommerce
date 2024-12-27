@@ -55,3 +55,15 @@ export const login = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Erro interno do servidor" });
   }
 };
+
+export const list = async (req: Request, res: Response) => {
+  let users: any;
+  users = await prisma.user.findMany;
+  let list: string[] = [];
+
+  for(let i in users){
+    list.push(users[i].email);
+  }
+
+  res.json({ list });
+}

@@ -19,17 +19,25 @@ model User {
   email     String?  @unique
   password  String?
   role      Role     @default(USER)
-  posts     Post[]
   status    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  titulo    String
-  subtitulo String?
-  body      String
-  userId    Int
-  author    User    @relation(fields: [userId], references: [id])
+model Produto {
+  id          Int       @id @default(autoincrement())
+  nome        String
+  descricao   String
+  preco       Float
+  categoriaId Int
+  imagem      String
+  categoria   Categoria @relation(fields: [categoriaId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+}
+
+model Categoria {
+  id       Int       @id @default(autoincrement())
+  nome     String
+  produtos Produto[]
 }
