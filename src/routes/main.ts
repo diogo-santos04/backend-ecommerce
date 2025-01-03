@@ -10,5 +10,5 @@ mainRouter.get("/", (req, res) => {
 });
 
 mainRouter.use("/usuario", usuarioRouter);
-mainRouter.use("/produtos", produtoRouter); 
+mainRouter.use("/produto", produtoRouter); 
 mainRouter.use("/categoria", categoriaRouter);

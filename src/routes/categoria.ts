@@ -32,6 +32,7 @@ router.post("/add", async (req, res) => {
 });
 
 router.delete("/delete/:id", async (req, res) => {
+  console.log("hit");
   const id = Number(req.params.id);
   const deletedCategoria = await deleteCategorias(id);
   res.status(200).json(deletedCategoria);
