@@ -13,15 +13,16 @@ enum Role {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        Int        @id @default(autoincrement())
   nome      String
   cpf       String
-  email     String?  @unique
+  email     String?    @unique
   password  String?
-  role      Role     @default(USER)
-  status    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  role      Role       @default(USER)
+  status    Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now()) @updatedAt
+  Carrinho  Carrinho[]
 }
 
 model Produto {
@@ -34,10 +35,32 @@ model Produto {
   categoria   Categoria @relation(fields: [categoriaId], references: [id])
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @default(now()) @updatedAt
+
+  CarrinhoItens CarrinhoItens[]
 }
 
 model Categoria {
   id       Int       @id @default(autoincrement())
   nome     String
   produtos Produto[]
+}
+
+model Carrinho {
+  id        Int             @id @default(autoincrement())
+  userId    Int
+  user      User            @relation(fields: [userId], references: [id])
+  itens     CarrinhoItens[]
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @default(now()) @updatedAt
+}
+
+model CarrinhoItens {
+  id         Int      @id @default(autoincrement())
+  carrinhoId Int
+  carrinho   Carrinho @relation(fields: [carrinhoId], references: [id])
+  produtoId  Int
+  produto    Produto  @relation(fields: [produtoId], references: [id])
+  quantidade Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
 }

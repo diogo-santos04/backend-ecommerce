@@ -15,7 +15,6 @@ router.get("/", async (req, res) => {
     console.error("Error fetching categoria:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-  
 });
 
 router.post("/add", async (req, res) => {
