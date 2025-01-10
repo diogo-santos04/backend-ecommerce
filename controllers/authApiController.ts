@@ -1,7 +1,8 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { prisma } from "../src/libs/prisma";
 import { Prisma } from "@prisma/client";
 import bcrypt from "bcrypt";
+import jwt from 'jsonwebtoken';
 
 export const register = async (req: Request, res: Response) => {
   if (req.body.email && req.body.password) {
@@ -41,7 +42,8 @@ export const login = async (req: Request, res: Response) => {
       if (user && user.password) {
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (isPasswordValid) {
-          res.json({ status: true });
+          const token = jwt.sign({userId: user.id}, "^j3Zp8yK!WQ$5@dL6e", {expiresIn: '1h'});
+          res.json({ status: true, token });
           return;
         } else {
           res.json({ status: false });
@@ -67,3 +69,4 @@ export const list = async (req: Request, res: Response) => {
 
   res.json({ list });
 }
+

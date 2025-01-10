@@ -1,6 +1,7 @@
 import express from "express";
 import { createUser, deleteUser, getAllUsers } from "../services/userServices";
 import * as ApiController from '../../controllers/authApiController'
+import { authenticate } from "../middlewares/authenticate";
 
 const router = express.Router();
 
@@ -8,8 +9,8 @@ router.get("/ping", (req, res) => {
   res.json({ pong: true });
 });
 
-router.post('/register', ApiController.register);
-router.post('/login', ApiController.login);
+router.post('/register', authenticate, ApiController.register);
+router.post('/login',authenticate, ApiController.login);
 
 router.post("/create", async (req, res) => {
   const { nome, cpf } = req.body;
