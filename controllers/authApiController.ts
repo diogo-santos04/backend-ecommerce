@@ -3,8 +3,15 @@ import { prisma } from "../src/libs/prisma";
 import { Prisma } from "@prisma/client";
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
+import dotenv  from "dotenv";
+import { authenticateToken } from "../middlewares/authMiddleware";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+dotenv.config();
 
 export const register = async (req: Request, res: Response) => {
+  console.log('register hit');
   if (req.body.email && req.body.password) {
     let { nome, email, password, cpf } = req.body;
 
@@ -21,7 +28,10 @@ export const register = async (req: Request, res: Response) => {
           password: hashedPassword,
         },
       });
-
+      // const token = jwt.sign({ id: newUser.id, email: newUser.email }, process.env.JWT_SECRET as string, {
+      //   expiresIn: '1h',
+      // });
+      // await AsyncStorage.setItem('token', token);
       res.status(201);
       res.json({ id: newUser.id });
     } else {
@@ -42,7 +52,9 @@ export const login = async (req: Request, res: Response) => {
       if (user && user.password) {
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (isPasswordValid) {
-          const token = jwt.sign({userId: user.id}, "^j3Zp8yK!WQ$5@dL6e", {expiresIn: '1h'});
+          const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET as string, {
+            expiresIn: '1h',
+          });
           res.json({ status: true, token });
           return;
         } else {
